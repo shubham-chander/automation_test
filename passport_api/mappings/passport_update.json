@@ -1,0 +1,30 @@
+{
+    "priority": 1,
+    "request": {
+        "method": "GET",
+        "url": "/passport",
+        "bodyPatterns": [
+            {
+                "equalToJson": "{ \"passport_id\": \"UPDATE\" }",
+                "ignoreArrayOrder": true,
+                "ignoreExtraElement": true
+            }
+        ]
+    },
+    "response": {
+        "status": 200,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "jsonBody": {
+            "passport_id": "UPDATE",
+            "first_name": "Joey",
+            "last_name": "Tribbiani"
+        },
+        "delayDistribution": {
+            "type": "lognormal",
+            "median": 80,
+            "sigma": 0.2
+        }
+    }
+}

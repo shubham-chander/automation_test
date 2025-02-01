@@ -1,0 +1,74 @@
+services:
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: airline
+    volumes:
+      - ./db:/home/scripts
+    ports:
+      - 5432:5432
+    command: >
+      bash -c "
+      docker-entrypoint.sh postgres &
+      until pg_isready -h localhost -U postgres; do
+        echo 'Waiting for PostgreSQL to be ready...';
+        sleep 2;
+      done;
+      bash /home/scripts/exec_sql.sh schema.sql;
+      wait
+      "
+
+  passport_api:
+    image: wiremock/wiremock:3.9.1
+    ports:
+      - 8081:8080
+    volumes:
+      - ./passport_api:/home/wiremock
+
+  airline_api_dev:
+    build: .
+    ports: 
+      - 8000:8000
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/airline
+      - PASSPORT_API=http://passport_api:8080
+    depends_on:
+      - postgres
+      - passport_api
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8000/" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  test_runner:
+    build:
+      context: .
+      dockerfile: tests/Dockerfile.test
+    container_name: test_runner
+    working_dir: /tests
+    volumes:
+      - ./tests:/tests
+      - ./tests/reports:/tests/reports
+    depends_on:
+      airline_api_dev:
+        condition: service_healthy
+    command: >
+      sh -c "pytest test_flight_booking.py --tb=short --disable-warnings --html=reports/report.html || true && tail -f /dev/null"
+    
+
+  # pytest tests/test_flight_booking.py --tb=short --disable-warnings --html=reports/report.html
+
+#  test_runner:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile.test  # Use the new Dockerfile for the test_runner service
+#    container_name: test_runner
+#    depends_on:
+#      - airline_api_dev
+#    volumes:
+#      - ./reports:/tests/reports  # Mount the reports directory to save the HTML report
+#    command: >
+#      sh -c "pytest tests/test_flight_booking.py --tb=short --disable-warnings --html=reports/report.html || true && tail -f /dev/null"

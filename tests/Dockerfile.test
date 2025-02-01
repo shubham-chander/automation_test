@@ -1,0 +1,15 @@
+FROM python:3.12-bookworm
+
+# Set the working directory
+WORKDIR /tests
+
+# Copy requirements and install dependencies
+COPY ./tests/requirements_test.txt requirements.txt
+RUN pip install -r requirements.txt
+
+# Copy the test files and any additional data
+COPY ./tests ./tests
+COPY ./passport_api ./passport_api
+
+# Default command for running tests
+# CMD ["pytest", "tests/test_flight_booking.py", "--tb=short", "--disable-warnings", "--html=reports/report.html"]
