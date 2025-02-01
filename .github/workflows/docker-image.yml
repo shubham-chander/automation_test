@@ -1,0 +1,28 @@
+name: Run Tests with Docker Compose
+
+on:
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Install docker-compose
+        run: |
+            sudo apt-get update
+            sudo apt-get install -y docker-compose
+            docker-compose --version # Optional: verify the installation
+
+      - name: Build and Run Tests
+        run: |
+          docker-compose -f compose.apitest.yml up  --build --abort-on-container-exit
+          docker-compose down
