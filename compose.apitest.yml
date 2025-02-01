@@ -56,11 +56,11 @@ services:
       airline_api_dev:
         condition: service_healthy
     command: >
-      pytest test_flight_booking.py --tb=short --disable-warnings --html=reports/report.html
+      sh -c pytest test_flight_booking.py --tb=short --disable-warnings --html=reports/report.html
+    
+ # sh -c "pytest test_flight_booking.py --tb=short --disable-warnings --html=reports/report.html || true && tail -f /dev/null"
+  # pytest tests/test_flight_booking.py --tb=short --disable-warnings --html=reports/report.html
 
-# sh -c "pytest test_flight_booking.py --tb=short --disable-warnings --html=reports/report.html || true && tail -f /dev/null"
-
-# pytest tests/test_flight_booking.py --tb=short --disable-warnings --html=reports/report.html
 
 #  test_runner:
 #    build:
