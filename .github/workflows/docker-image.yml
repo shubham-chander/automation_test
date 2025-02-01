@@ -26,3 +26,19 @@ jobs:
         run: |
           docker-compose -f compose.apitest.yml up  --build --abort-on-container-exit
           docker-compose down
+
+      - name: Upload Test Report
+        uses: actions/upload-artifact@v3
+        with:
+            name: test-report
+            path: tests/reports/report.html
+
+      - name: Post Test Results to PR
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: peter-evans/create-or-update-comment@v3
+        with:
+            token: ${{ secrets.GITHUB_TOKEN }}
+            issue-number: ${{ github.event.pull_request.number }}
+            body: |
+                ## Test Results
+                The test report is available [here](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}).
