@@ -28,7 +28,7 @@ jobs:
           docker-compose down
 
       - name: Upload Test Report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
             name: test-report
             path: tests/reports/report.html
