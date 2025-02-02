@@ -24,7 +24,7 @@ jobs:
 
       - name: Build and Run Tests
         run: |
-          docker-compose -f compose.apitest.yml up  --build --abort-on-container-exit || echo "Tests failed"
+          docker-compose -f compose.apitest.yml up  --build --abort-on-container-exit || exit 1
           docker-compose down
         continue-on-error: true
 
