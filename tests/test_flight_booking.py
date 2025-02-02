@@ -188,7 +188,7 @@ async def test_update_customer_name_mismatch():
 async def test_delete_passenger():
     """Deleting a passenger"""
     flight_id = "AAA01"
-    customer_id = 2
+    customer_id = 9992
     async with aiohttp.ClientSession() as session:
         async with session.delete(f"{BASE_URL}/flights/{flight_id}/passengers/{customer_id}") as response:
             assert response.status == 200, f"Unexpected status code: {response.status}"
