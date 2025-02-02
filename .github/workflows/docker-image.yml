@@ -34,7 +34,7 @@ jobs:
             name: test-report
             path: tests/reports/report.html
 
-      - name: Post Test Results to PR
+      - name: Post Failed Test Results to PR
         if: failure() && github.event_name == 'pull_request'
         uses: peter-evans/create-or-update-comment@v3
         with:
@@ -42,5 +42,5 @@ jobs:
             issue-number: ${{ github.event.pull_request.number }}
             body: |
                 ## Test Results
-                ** TEST FAILED **
+                **TEST FAILED**
                 The test report is available [here](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}).
