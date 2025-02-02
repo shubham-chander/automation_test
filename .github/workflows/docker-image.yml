@@ -36,7 +36,7 @@ jobs:
             path: tests/reports/report.html
 
       - name: Post Test Results to PR
-        if: failure() && ${{ github.event_name == 'pull_request' }}
+        if: failure() && github.event_name == 'pull_request'
         uses: peter-evans/create-or-update-comment@v3
         with:
             token: ${{ secrets.GITHUB_TOKEN }}
