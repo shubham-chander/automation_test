@@ -105,6 +105,24 @@ Candidates are required to create a public or private repository (accessible by 
 # How to run the test
 
 Before run the test, make sure python3 is installed in system 
+
+We have two approaches to run the test
+
+# Approach 1
+
+Trigger the compose.apitest.yml file
+```bash
+docker-compose -f compose.apitest.yml up -d
+```
+
+It will first 
+1. Start the service
+2. Create database
+3. Trigger the tests
+4. Store the test results in [reports](./tests/reports/) directory.
+
+
+# Approach 2
 first, make sure service is up and running.
 
 To start the service, you can run the following command.
@@ -124,9 +142,9 @@ cd tests
 ```
 
 
-# (Optional) Create virtial environment
+# Create virtual environment (Optional)
 ```
-python3 -m venv venv
+py -m venv venv
 ```
 
 _**Activate virtual environment**_
@@ -147,6 +165,25 @@ pip install -r requirements_test.txt
 ```
 
 # Run the test
+
+Before running the test, make sure to update the url in Script.
+Script default url is set to use Docker's URL, comment that out first : 
+```
+# DOCKER URL
+# BASE_URL = "http://airline_api_dev:8000"  # Airline API URL in Docker network
+# PASSPORT_API_URL = "http://passport_api:8080"  # Mocked Passport API URL
+# path = "/tests/passport_api/mappings/"
+```
+
+and un-comment the local machine's url
+```
+# LOCAL MACHINE URL
+BASE_URL = "http://localhost:8000"  # Airline API URL
+PASSPORT_API_URL = "http://localhost:8081"  # Mocked Passport API URL
+path = "../passport_api/mappings/"
+```
+
+Now, Run the tests using following command :
 ```
 pytest <test_file_name.py> --tb=short --disable-warnings --html=reports/report.html
 ```
@@ -159,6 +196,15 @@ example :
 > Result will be stored in [reports](./tests/reports/) directory.
 > 
 > file name : report.html
+
+
+#
+# GITHUB ACTIONS
+
+Git-hub actions are configured, it will upload the artifacts on server, but it will only send the result to Pull Request only when any test fail.
+> you can find the yml file here : [GITHUB ACTIONS](./.github/workflows/docker-image.yml) 
+
+> please check the Pull Request : actions_patch
 
 
 # More resources

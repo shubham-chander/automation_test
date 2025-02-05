@@ -2,18 +2,22 @@ import pytest
 import aiohttp
 import os
 
+# DOCKER URL
 BASE_URL = "http://airline_api_dev:8000"  # Airline API URL in Docker network
 PASSPORT_API_URL = "http://passport_api:8080"  # Mocked Passport API URL
 path = "/tests/passport_api/mappings/"
 
 
-# LOCAL MACHINE
-
-# BASE_URL = "http://localhost:8000"
-# PASSPORT_API_URL = "http://localhost:8081"
+# LOCAL MACHINE URL
+# BASE_URL = "http://localhost:8000"  # Airline API URL
+# PASSPORT_API_URL = "http://localhost:8081"  # Mocked Passport API URL
 # path = "../passport_api/mappings/"
 
 
+"""
+This method was created to setup dynamic stubs 
+but we are not using this function right now in test cases, since we are already defining static stubs already 
+"""
 @pytest.fixture(scope="module")
 async def setup_wiremock():
     """Setup WireMock stubs for the Passport API"""
@@ -41,7 +45,7 @@ async def setup_wiremock():
 
 
 @pytest.mark.asyncio
-async def test_create_booking_with_passenger_valid():
+async def test_create_booking_with_valid_passenger():
     """Create a flight booking with valid customer and flight details"""
     flight_id = "AAA01"
     passport_id = "BC1500"
@@ -66,7 +70,7 @@ async def test_create_booking_with_passenger_valid():
 
 
 @pytest.mark.asyncio
-async def test_create_booking_with_invalid_passenger_invalid():
+async def test_create_booking_with_invalid_passenger():
     """Attempt to create a flight booking with in-valid customer and flight details"""
     flight_id = "AAA01"
     passenger_data = {

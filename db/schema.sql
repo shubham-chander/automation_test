@@ -26,19 +26,18 @@ CREATE TABLE IF NOT EXISTS passengers (
     PRIMARY KEY (flight_id, customer_id)
 );
 
-
+-- Preparing flight data
 INSERT INTO flights VALUES('AAA01', '2024-12-01T00:00:00Z', '2024-12-01T02:00:00Z', 'DMK', 'HYD', 'Asia/Bangkok', 'Asia/Bangkok');
 INSERT INTO flights VALUES('AAA02', '2024-12-01T10:00:00Z', '2024-12-01T14:00:00Z', 'LHR', 'BKK', 'Europe/London', 'Asia/Bangkok');
 INSERT INTO flights VALUES('AAA03', '2024-12-01T00:00:00Z', '2024-12-01T02:00:00Z', 'DMK', 'CNX', 'Asia/Bangkok', 'Asia/Bangkok');
 
---INSERT INTO customers (id, passport_id, first_name, last_name) VALUES (1, 'BC1500', 'Shauna', 'Davila');
---INSERT INTO customers (id, passport_id, first_name, last_name) VALUES (2, 'BC1501', 'Shubham', 'Chander');
+-- preparing customer data
 INSERT INTO customers (id, passport_id, first_name, last_name) VALUES (1, 'BC1502', 'Rock', 'Rose'); -- USED FOR UPDATE TEST CASE
-INSERT INTO customers (id, passport_id, first_name, last_name) VALUES (2, 'DELETE', 'John', 'Doe');
+INSERT INTO customers (id, passport_id, first_name, last_name) VALUES (2, 'DELETE', 'John', 'Doe'); --  USED FOR DELETE TEST CASE
 
 -- customers data is keep getting out of sync
 SELECT setval('customers_id_seq', (SELECT MAX(id) FROM customers));
 
---INSERT INTO passengers (flight_id, customer_id) VALUES ('AAA01', 1);
+-- preparing passengers data
 INSERT INTO passengers (flight_id, customer_id) VALUES ('AAA01', 1); -- USED FOR UPDATE TEST CASE
-INSERT INTO passengers (flight_id, customer_id) VALUES ('AAA01', 2);
+INSERT INTO passengers (flight_id, customer_id) VALUES ('AAA01', 2); -- USED FOR DELETE TEST CASE
