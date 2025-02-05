@@ -41,7 +41,7 @@ async def setup_wiremock():
 
 
 @pytest.mark.asyncio
-async def test_create_booking_with_passenger_valid(setup_wiremock):
+async def test_create_booking_with_passenger_valid():
     """Create a flight booking with valid customer and flight details"""
     flight_id = "AAA01"
     passport_id = "BC1500"
@@ -66,7 +66,7 @@ async def test_create_booking_with_passenger_valid(setup_wiremock):
 
 
 @pytest.mark.asyncio
-async def test_create_booking_with_invalid_passenger_invalid(setup_wiremock):
+async def test_create_booking_with_invalid_passenger_invalid():
     """Attempt to create a flight booking with in-valid customer and flight details"""
     flight_id = "AAA01"
     passenger_data = {
@@ -135,7 +135,7 @@ async def test_retrieve_flight_details_same_timezone():
 
 
 @pytest.mark.asyncio
-async def test_update_customer_information(setup_wiremock):
+async def test_update_customer_information():
     """Updating a passenger's details"""
     flight_id = "AAA01"
     customer_id = 1
@@ -161,7 +161,7 @@ async def test_update_customer_information(setup_wiremock):
 
 
 @pytest.mark.asyncio
-async def test_update_customer_name_mismatch(setup_wiremock):
+async def test_update_customer_name_mismatch():
     """Attempt to update a customer's name with mismatched details"""
     flight_id = "AAA01"  # Existing flight
     customer_id = 1  # Existing customer ID
