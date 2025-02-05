@@ -57,19 +57,9 @@ services:
         condition: service_healthy
     command: >
       pytest test_flight_booking.py --tb=short --disable-warnings --html=reports/report.html
-    
- # sh -c "pytest test_flight_booking.py --tb=short --disable-warnings --html=reports/report.html || true && tail -f /dev/null"
-  # pytest tests/test_flight_booking.py --tb=short --disable-warnings --html=reports/report.html
 
 
-#  test_runner:
-#    build:
-#      context: .
-#      dockerfile: Dockerfile.test  # Use the new Dockerfile for the test_runner service
-#    container_name: test_runner
-#    depends_on:
-#      - airline_api_dev
-#    volumes:
-#      - ./reports:/tests/reports  # Mount the reports directory to save the HTML report
-#    command: >
-#      sh -c "pytest tests/test_flight_booking.py --tb=short --disable-warnings --html=reports/report.html || true && tail -f /dev/null"
+
+# FOR TESTING
+# sh -c "pytest test_flight_booking.py --tb=short --disable-warnings --html=reports/report.html || true && tail -f /dev/null"
+# pytest tests/test_flight_booking.py --tb=short --disable-warnings --html=reports/report.html
